@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Tarea3.Models;
 
 namespace Tarea3.Data;
 
@@ -9,4 +10,5 @@ public class ApplicationDbContext : IdentityDbContext
         : base(options)
     {
     }
+    public DbSet<Mascota> Mascotas { get; set; }
 }
