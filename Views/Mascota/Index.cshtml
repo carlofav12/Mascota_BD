@@ -1,0 +1,27 @@
+@model Tarea3.ViewModel.MascotaViewModel
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<h1 style="text-align: center;"> Formulario de Registro</h1>
+<form asp-controller="Mascota" asp-action="Insertar" method="post">
+    <div class="form-group">
+        <label asp-for="FormMascota.Nombre" class="control-label"></label>
+        <input asp-for="FormMascota.Nombre" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="FormMascota.Raza" class="control-label"></label>
+        <input asp-for="FormMascota.Raza" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="FormMascota.Color" class="control-label"></label>
+        <input asp-for="FormMascota.Color" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="FormMascota.FechaNacimiento" class="control-label"></label>
+        <input asp-for="FormMascota.FechaNacimiento" class="form-control" type="date" /> </br>
+    </div>
+    <div class="form-group text-center">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+</form>
