@@ -24,7 +24,7 @@ namespace Tarea3.Controllers
 
         public IActionResult Index()
         {
-            var misMascotas = from o in _context.Mascotas select o;
+            var misMascotas = _context.Mascotas.ToList();
             _logger.LogDebug("Mascotas: {misMascotas}", misMascotas);
             var viewModel = new MascotaViewModel
             {
@@ -32,7 +32,7 @@ namespace Tarea3.Controllers
                 ListMascota = misMascotas
             };
             _logger.LogDebug("ViewModel: {viewModel}", viewModel);
-            return View();
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -52,7 +52,10 @@ namespace Tarea3.Controllers
 
             ViewData["Message"] = "Mascota Insertada con éxito";
 
-            return View("Index");
+            var misMascotas = _context.Mascotas.ToList();
+            viewModel.ListMascota = misMascotas;
+
+            return View("Index", viewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

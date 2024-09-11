@@ -8,7 +8,7 @@ namespace Tarea3.ViewModel
 {
     public class MascotaViewModel
     {
-        public Mascota? FormMascota { get; set; }
-        public IEnumerable<Mascota>? ListMascota { get; set; }
+        public Mascota FormMascota { get; set; }
+        public IEnumerable<Mascota> ListMascota { get; set; }
     }
 }
