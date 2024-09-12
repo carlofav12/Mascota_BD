@@ -39,21 +39,62 @@ namespace Tarea3.Controllers
         public IActionResult Insertar(MascotaViewModel viewModel)
         {
             var fechaNacimiento = viewModel.FormMascota.FechaNacimiento.ToUniversalTime();
-            var mascota = new Mascota
+            if (viewModel.FormMascota.Id == 0)
             {
-                Nombre = viewModel.FormMascota.Nombre,
-                Raza = viewModel.FormMascota.Raza,
-                Color = viewModel.FormMascota.Color,
-                FechaNacimiento = fechaNacimiento
-            };
+                var mascota = new Mascota
+                {
+                    Nombre = viewModel.FormMascota.Nombre,
+                    Raza = viewModel.FormMascota.Raza,
+                    Color = viewModel.FormMascota.Color,
+                    FechaNacimiento = fechaNacimiento
+                };
+                _context.Mascotas.Add(mascota);
+                ViewData["Message"] = "Mascota Insertada con éxito";
+            }
+            else
+            {
+                var mascotaExistente = _context.Mascotas.Find(viewModel.FormMascota.Id);
+                if (mascotaExistente != null)
+                {
+                    mascotaExistente.Nombre = viewModel.FormMascota.Nombre;
+                    mascotaExistente.Raza = viewModel.FormMascota.Raza;
+                    mascotaExistente.Color = viewModel.FormMascota.Color;
+                    mascotaExistente.FechaNacimiento = fechaNacimiento;
+                    ViewData["Message"] = "Mascota Actualizada con éxito";
+                }
+            }
+            _context.SaveChanges();
+            viewModel.ListMascota = _context.Mascotas.ToList();
 
-            _context.Mascotas.Add(mascota);
+            return View("Index", viewModel);
+        }
+
+        public IActionResult Eliminar(long id)
+        {
+            var mascota = _context.Mascotas.Find(id);
+            _context.Mascotas.Remove(mascota);
             _context.SaveChanges();
 
-            ViewData["Message"] = "Mascota Insertada con éxito";
+            ViewData["Message"] = "Mascota Eliminada con éxito";
 
             var misMascotas = _context.Mascotas.ToList();
-            viewModel.ListMascota = misMascotas;
+            var viewModel = new MascotaViewModel
+            {
+                FormMascota = new Mascota(),
+                ListMascota = misMascotas
+            };
+
+            return View("Index", viewModel);
+        }
+
+        public IActionResult Editar(long id)
+        {
+            var mascota = _context.Mascotas.Find(id);
+            var viewModel = new MascotaViewModel
+            {
+                FormMascota = mascota,
+                ListMascota = _context.Mascotas.ToList()
+            };
 
             return View("Index", viewModel);
         }
